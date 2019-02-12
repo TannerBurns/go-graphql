@@ -17,6 +17,7 @@ func main() {
 
 	api := routes.NewRouter() // create routes
 	defer api.Database.Close()
+	defer api.ConnectionsLog.Close()
 
 	// These two lines are important in order to allow access from the front-end side to the methods
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})

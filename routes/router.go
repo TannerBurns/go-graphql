@@ -27,16 +27,16 @@ type API struct {
 }
 
 func NewRouter() (api *API) {
+	api = &API{}
 	controller := controllers.Controller{Name: "GoGQL"}
 	controller.Logger = models.NewLogger("GoGQL")
 	api_route := "/gogql/api/v1"
 
 	f, err := os.OpenFile("connections.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		controller.Logger.Fatal.Println(err)
+		controller.Logger.Fatal.Println(f)
 	}
 	controller.Logger.Log.SetOutput(f)
-	api.ConnectionsLog = f
 
 	db, err := models.Session("localhost", 5432, "gogql", "postgres", "postgres")
 	if err != nil {
@@ -80,5 +80,6 @@ func NewRouter() (api *API) {
 	}
 	api.Router = router
 	api.Database = db
+	api.ConnectionsLog = f
 	return
 }
